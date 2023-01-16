@@ -18,7 +18,7 @@ function ItemLista({ item, getID }: Props) {
 
     const onDragStart = (id: string) => {
         //console.log("id: ", id)
-        handleclick
+        handleclick()
     }
 
     const onDragEnter = (id: string) => {

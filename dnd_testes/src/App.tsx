@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Lista } from './types/Lista'
+import { Item } from "./types/Item"
 import { v4 as uuidv4 } from "uuid"
 
 import Lista_Comp from "./components/Lista_Comp"
@@ -9,44 +10,42 @@ import './index.css'
 
 function App() {
 
-  const [listao, setListao] = useState<Lista[]>([
-    {
-      titulo: "A",
-      Item: [{ id: uuidv4(), name: "ABC" }, { id: uuidv4(), name: "DEF" }, { id: uuidv4(), name: "DEF" }]
-    },
-    {
-      titulo: "B",
-      Item: [{ id: uuidv4(), name: "CDE" }, { id: uuidv4(), name: "FHI" }]
-    }
-  ]
-  )
+  const [listA, setListA] = useState<Lista>({
+    titulo: "A",
+    Item: [{ id: uuidv4(), name: "ABC" }, { id: uuidv4(), name: "DEF" }, { id: uuidv4(), name: "DEF" }]
+  },)
 
-  const [listA, setListA] = useState<Lista[]>(listao.filter(vetor => vetor.titulo === "A"))
-
-  const [listB, setListB] = useState<Lista[]>(listao.filter(vetor => vetor.titulo === "B"))
+  const [listB, setListB] = useState<Lista>({
+    titulo: "B",
+    Item: [{ id: uuidv4(), name: "CDE" }, { id: uuidv4(), name: "FHI" }]
+  })
 
 
   const addClick = (id: string, titulo: string) => {
+    //console.log(id)
     addItem(id, titulo)
   }
 
+  const setList = (titulo: string, item: Item[]) => {
+    switch (titulo.toUpperCase()) {
+      case 'A': setListA({ titulo: "A", Item: item })
+        break
+      case 'B': setListB({ titulo: "B", Item: item })
+        break
+    }
+  }
 
   const addItem = (id: string, titulo: string) => {
-    let pos = 0
-    listao.forEach((item_filtro) => {
-      item_filtro.Item.forEach((item2, index) => {
-        if (item2.id === id) {
-          pos = index
-        }
-      })
-    })
-    console.log(pos)
+    removeItem(id, titulo)
+    let newList: Item[] = []
+    if (titulo === "A") newList = [...listA.Item]
+    if (titulo === "B") newList = [...listB.Item]
 
-    // let newList = [...listA.Item]
     // newList.push({ id: id, name: listB.Item[pos].name })
-    // setListA({ titulo: "A", Item: newList })
-    // //console.log(newList)
-    // removeItem(pos, titulo)
+
+    setList(titulo, newList)
+    //console.log(newList)
+    //removeItem(pos, titulo)
   }
 
   // if (titulo == 'A') {
@@ -65,22 +64,22 @@ function App() {
   //   removeItem(pos, titulo)
   // }
 
-  const removeItem = (pos?: number, titulo?: string, id?: string) => {
-    // if (titulo == 'B') {
-    //   let newList = [...listB.Item]
+  const removeItem = (id: string, titulo: string) => {
+    if (titulo == 'B') {
+      let newList = [...listB.Item]
 
-    //   newList = newList.filter((item, index) => index !== pos)
+      newList = newList.filter((item, index) => item.id !== id)
 
-    //   //console.log(newList)
-    //   setListB({ titulo: "B", Item: newList })
-    // }
-    // if (titulo == 'A') {
-    //   let newList = [...listA.Item]
-    //   newList = newList.filter((item, index) => index !== pos)
+      console.log(newList)
+      setList(titulo, newList)
+    }
+    if (titulo == 'A') {
+      let newList = [...listA.Item]
+      newList = newList.filter((item, index) => item.id !== id)
 
-    //   //console.log(newList)
-    //   setListA({ titulo: "A", Item: newList })
-    // }
+      console.log(newList)
+      setList(titulo, newList)
+    }
   }
 
   return (
@@ -88,8 +87,8 @@ function App() {
     < div className="App" >
       <Head />
       <div className="Container-List">
-        <Lista_Comp key={listA[0].titulo} list={listA[0]} addClick={addClick} />
-        <Lista_Comp key={listB[0].titulo} list={listB[0]} addClick={addClick} />
+        <Lista_Comp key={listA.titulo} list={listA} addClick={addClick} />
+        <Lista_Comp key={listB.titulo} list={listB} addClick={addClick} />
       </div>
     </div >
   )
