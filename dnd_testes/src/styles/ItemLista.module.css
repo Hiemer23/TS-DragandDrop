@@ -1,4 +1,5 @@
-.container {
+.container,
+.container_drag {
     border: solid 1px #333;
     border-radius: 10px;
     width: 40%;
@@ -7,5 +8,12 @@
     text-align: center;
     margin: 0 .5em;
     margin-bottom: .5em;
-    cursor: grab;
+    cursor: move;
+    background-color: #444;
+    color:#fff
+}
+.container_drag{
+    background-color:rgb(88, 37, 37);
+    border: dashed 1px rgb(0, 0, 0);
+
 }

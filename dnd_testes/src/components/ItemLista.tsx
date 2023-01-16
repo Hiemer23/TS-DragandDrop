@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from '../styles/ItemLista.module.css'
 import { Item } from '../types/Item'
 
@@ -9,36 +9,36 @@ type Props = {
 
 function ItemLista({ item, getID }: Props) {
 
-
-    const dragItem = React.useRef<any>(null)
-    const dragOverItem = React.useRef<any>(null)
+    const [drag, SetDrag] = useState(false)
     const handleclick = () => {
         getID(item.id)
     }
 
     const onDragStart = (id: string) => {
+        SetDrag(true)
         //console.log("id: ", id)
         handleclick()
     }
 
     const onDragEnter = (id: string) => {
-        //console.log("id: ", id)
+        console.log("id: ", id)
     }
 
     const onDragEnd = (id: string) => {
-        //console.log("id: ", id)
+        console.log("id: ", id)
         handleclick()
+        SetDrag(false)
     }
 
     return (
         <div key={item.id}
-            className={style.container}
+            className={drag ? style.container_drag : style.container}
             onClick={handleclick}
             draggable
             onDragStart={() => onDragStart(item.id)}
             onDragEnter={() => onDragEnter(item.id)}
             onDragEnd={() => onDragEnd(item.id)}
-            onDragOver={e => e.preventDefault()}
+        // onDragOver={() => onDragEnd(item.id)}
         > {item.name}</div >
     )
 }
