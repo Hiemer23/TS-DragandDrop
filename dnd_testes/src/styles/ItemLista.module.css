@@ -10,7 +10,8 @@
     margin-bottom: .5em;
     cursor: move;
     background-color: #444;
-    color:#fff
+    color:#fff;
+    transition:.2s;
 }
 .container_drag{
     background-color:rgb(88, 37, 37);

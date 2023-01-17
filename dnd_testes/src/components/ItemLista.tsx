@@ -10,36 +10,30 @@ type Props = {
 function ItemLista({ item, getID }: Props) {
 
     const [drag, SetDrag] = useState(false)
+
     const handleclick = () => {
         getID(item.id)
     }
 
     const onDragStart = (id: string) => {
         SetDrag(true)
-        //console.log("id: ", id)
-        handleclick()
-    }
-
-    const onDragEnter = (id: string) => {
-        console.log("id: ", id)
+        console.log("pegou")
     }
 
     const onDragEnd = (id: string) => {
-        console.log("id: ", id)
-        handleclick()
         SetDrag(false)
+        //console.log('drag enter', targetTitulo)
+        console.log("soltou")
     }
 
     return (
         <div key={item.id}
             className={drag ? style.container_drag : style.container}
-            onClick={handleclick}
+            // onClick={handleclick}
             draggable
             onDragStart={() => onDragStart(item.id)}
-            onDragEnter={() => onDragEnter(item.id)}
-            onDragEnd={() => onDragEnd(item.id)}
-        // onDragOver={() => onDragEnd(item.id)}
-        > {item.name}</div >
+            onDragEnd={() => onDragEnd(item.id)}>
+            {item.name}</div >
     )
 }
 
