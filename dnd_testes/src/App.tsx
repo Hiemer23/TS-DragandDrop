@@ -12,9 +12,11 @@ function App() {
 
   let targetItem: Item
   let targetTitulo: string = ""
+  let listAReserva: Lista
+  let listBReserva: Lista
   const [listA, setListA] = useState<Lista>({
     titulo: "A",
-    Item: [{ id: uuidv4(), name: "ABC" }, { id: uuidv4(), name: "DEF" }, { id: uuidv4(), name: "DEF" }]
+    Item: [{ id: uuidv4(), name: "ABC" }, { id: uuidv4(), name: "DEF" }, { id: uuidv4(), name: "JDF" }]
   },)
 
   const [listB, setListB] = useState<Lista>({
@@ -42,15 +44,17 @@ function App() {
     addClick(targetItem, targetTitulo)
   }
 
-  const setList = (titulo: string, item: Item[]) => {
+  const setList = () => {
     //console.log(item, titulo)
 
-    switch (titulo) {
-      case "A":
-        setListA({ titulo: "A", Item: item })
-        break;
-      case "B": setListB({ titulo: "B", Item: item })
-    }
+    // switch (titulo) {
+    //   case "A":
+    //     setListA({ titulo: "A", Item: item })
+    //     break;
+    //   case "B": setListB({ titulo: "B", Item: item })
+    // }
+    setListA(listAReserva)
+    setListB(listBReserva)
   }
 
   const addItem = (item: Item, titulo: string) => {
@@ -58,32 +62,37 @@ function App() {
     let newList: Item[] = []
     if (titulo == "A") {
 
-      newList = [...listA.Item]
-
+      newList = [...listAReserva.Item]
+      newList.push(item)
+      listAReserva = { titulo: "A", Item: newList }
       //console.log(newList)
     }
     if (titulo == "B") {
-      newList = [...listB.Item]
+      newList = [...listBReserva.Item]
+      newList.push(item)
+      listBReserva = { titulo: "B", Item: newList }
     }
-    newList.push(item)
-    setList(titulo, newList)
+    setList()
   }
 
 
   const removeItem = (item: Item) => {
+    listAReserva = listA
+    listBReserva = listB
     let newList = [...listB.Item]
     let titulo = "B"
-    newList = newList.filter((teste, index) => teste.id === item.id)
-
-    if (newList.length == 0) {
+    newList = newList.filter((teste) => teste.id !== item.id)
+    listBReserva = { titulo: "B", Item: newList }
+    //console.log('passou aqui')
+    if (newList.length === listB.Item.length) {
       titulo = "A"
-      console.log("AQUI")
+      //console.log("AQUI")
       newList = [...listA.Item]
-      newList = newList.filter((teste, index) => teste.id=== item.id)
-      console.log(newList)
+      newList = newList.filter((teste) => teste.id !== item.id)
+      listAReserva = { titulo: "A", Item: newList }
+      //console.log(newList)
     }
-    //console.log(newList)
-    setList(titulo, newList)
+    console.log(newList)
   }
 
   return (
