@@ -2,33 +2,26 @@ import ItemLista from "./ItemLista"
 import style from '../styles/Lista.module.css'
 import { useState } from "react"
 import { Lista } from "../types/Lista"
+import { Item } from "../types/Item"
 
 type Props = {
     list: Lista,
-    addClick: (id: string, titulo: string) => void,
-    removeClick: (id: string, titulo: string) => void,
+    getID: (item: Item) => void,
+    getTitulo: (titulo: string) => void
 }
 
-function Lista_Comp({ list }: Props) {
-
-    const getID = (id: string) => {
-
-        //console.log(id,list.titulo)
-    }
+function Lista_Comp({ list, getID, getTitulo }: Props) {
 
     const dragStatus = {
         onDragEnter: (e: any) => {
             e.preventDefault();
-            console.log('onDragEnter');
         },
         onDragOver: (e: any) => {
             e.preventDefault();
-            console.log('onDragOver');
         },
         onDrop: (e: any) => {
             e.preventDefault();
-
-            console.log('soltou2');
+            getTitulo(list.titulo);
         }
     }
 

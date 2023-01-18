@@ -4,26 +4,23 @@ import { Item } from '../types/Item'
 
 type Props = {
     item: Item,
-    getID: (id: string) => void,
+    getID: (item: Item) => void,
 }
 
 function ItemLista({ item, getID }: Props) {
 
     const [drag, SetDrag] = useState(false)
 
-    const handleclick = () => {
-        getID(item.id)
-    }
-
     const onDragStart = (id: string) => {
         SetDrag(true)
-        console.log("pegou")
+        getID(item)
+        //console.log("pegou")
     }
 
     const onDragEnd = (id: string) => {
         SetDrag(false)
         //console.log('drag enter', targetTitulo)
-        console.log("soltou")
+        //console.log("soltou")
     }
 
     return (
